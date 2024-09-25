@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Button } from "@chakra-ui/react";
 const TopDoctors = () => {
     const temporaryDataForTopDoctors = [
         { id: 1, status: "Not Available", name: "Dr. Richard James", position: "General Physician", url: "https://raw.githubusercontent.com/avinashdm/gs-images/main/prescripto/doc1.png" },
@@ -28,14 +29,33 @@ const TopDoctors = () => {
                                         <p className={`text-sm font-bold text-green-600 ${status == 'Available' ? 'text-green-600' : 'text-red-600'}`}>{status}</p>
                                     </div>
                                     <p className="font-bold">{name}</p>
-                                    <p className="text-sm">{position}</p>
+                                    <p className="text-[0.8rem]">{position}</p>
                                 </div>
                             </div>
                         </Link>
                     })
                 }
-
             </div>
+
+            <div className="flex items-center justify-center mt-[2.5em]">
+                <Link to="/sds">
+                    <Button
+                        size='md'
+                        style={{
+                            backgroundColor: "#EAEFFF",
+                            width: "9em",
+                            padding: "1.5em",
+                            borderRadius: "100px"
+                        }}
+                    >
+                        <span>
+                            View More
+                        </span>
+                    </Button>
+                </Link>
+            </div>
+
+
         </section>
     </>
 }
