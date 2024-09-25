@@ -24,7 +24,7 @@ const TopDoctors = () => {
                     return (
                         <Link to="/" key={id}>
                             <div className="border border-[#C9D8FF] rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500">
-                                <img className="bg-[#EAEFFF]" src={url} alt={name} />
+                                <img className="bg-[#EAEFFF] w-full" src={url} alt={name} />
                                 <div className="p-4">
                                     <div className="flex items-center gap-1">
                                         <div className={`w-2 h-2 rounded-full ${isDoctorAvailable ? 'bg-green-600' : 'bg-red-600'}`}></div>
