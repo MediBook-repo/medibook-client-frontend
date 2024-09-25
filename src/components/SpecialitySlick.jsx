@@ -23,42 +23,42 @@ const SpecialitySlick = () => {
                 }}
             >
                 <Link to="/">
-                    <div className="flex flex-col items-center gap-2 text-center whitespace-nowrap">
+                    <div className="flex flex-col items-center gap-2 text-center whitespace-nowrap transform transition-transform duration-500 hover:-translate-y-2">
                         <img src={speciality_1} alt="" className="w-16 sm:w-24" />
                         <p className="text-sm">General Physician</p>
                     </div>
                 </Link>
 
                 <Link to="/">
-                    <div className="flex flex-col items-center gap-2 text-center whitespace-nowrap">
+                    <div className="flex flex-col items-center gap-2 text-center whitespace-nowrap transform transition-transform duration-500 hover:-translate-y-2">
                         <img src={speciality_2} alt="" className="w-16 sm:w-24" />
                         <p className="text-sm">Gynecologist</p>
                     </div>
                 </Link>
 
                 <Link to="/">
-                    <div className="flex flex-col items-center gap-2 text-center whitespace-nowrap">
+                    <div className="flex flex-col items-center gap-2 text-center whitespace-nowrap transform transition-transform duration-500 hover:-translate-y-2">
                         <img src={speciality_3} alt="" className="w-16 sm:w-24" />
                         <p className="text-sm">Dermatologist</p>
                     </div>
                 </Link>
 
                 <Link to="/">
-                    <div className="flex flex-col items-center gap-2 text-center whitespace-nowrap">
+                    <div className="flex flex-col items-center gap-2 text-center whitespace-nowrap transform transition-transform duration-500 hover:-translate-y-2">
                         <img src={speciality_4} alt="" className="w-16 sm:w-24" />
                         <p className="text-sm">Pediatricians</p>
                     </div>
                 </Link>
 
                 <Link to="/">
-                    <div className="flex flex-col items-center gap-2 text-center whitespace-nowrap">
+                    <div className="flex flex-col items-center gap-2 text-center whitespace-nowrap transform transition-transform duration-500 hover:-translate-y-2">
                         <img src={speciality_5} alt="" className="w-16 sm:w-24" />
                         <p className="text-sm">Neurologist</p>
                     </div>
                 </Link>
 
                 <Link to="/">
-                    <div className="flex flex-col items-center gap-2 text-center whitespace-nowrap">
+                    <div className="flex flex-col items-center gap-2 text-center whitespace-nowrap transform transition-transform duration-500 hover:-translate-y-2">
                         <img src={speciality_6} alt="" className="w-16 sm:w-24" />
                         <p className="text-sm">Gastroenterologist</p>
                     </div>
