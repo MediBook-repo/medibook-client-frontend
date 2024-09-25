@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import SpecialitySlick from "../components/SpecialitySlick";
 
 import 'boxicons';
+import TopDoctors from "../components/TopDoctors";
 
 const Homepage = () => {
     return <>
@@ -36,6 +37,7 @@ const Homepage = () => {
             </div>
 
             <SpecialitySlick />
+            <TopDoctors />
         </main>
     </>
 }
