@@ -10,8 +10,8 @@ import { Link } from "react-router-dom";
 const SpecialitySlick = () => {
 
     return (
-        <section className="mt-12 pb-12">
-            <h1 className="text-3xl font-[600] text-center">Find by Speciality</h1>
+        <section className="py-[6em]">
+            <h1 className="text-3xl font-[600] text-center mb-5">Find by Speciality</h1>
             <p className="text-center mt-2 sm:w-1/3 text-sm m-auto pb-8">
                 Simply browse through our extensive list of trusted doctors, schedule your appointment hassle-free.
             </p>
