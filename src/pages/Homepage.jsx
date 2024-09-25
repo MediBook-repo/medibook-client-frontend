@@ -2,6 +2,7 @@ import groupProfiles from "../assets/images/group_profiles-BCL6AVF5.png";
 import headerImg from "../assets/images/header_img-DhAi3lLA.png";
 import { Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import SpecialitySlick from "../components/SpecialitySlick";
 
 import 'boxicons';
 
@@ -10,9 +11,9 @@ const Homepage = () => {
         <main className="max-w-[90%] sm:max-w-[80%] m-auto mt-3">
             <div className="bg-[#3A60E6] rounded">
                 <div className="flex flex-col lg:flex-row justify-between items-center px-[3em] sm:px-[5.5em] gap-5 lg:gap-0">
-                    <div className="mt-[2em] lg:mt-0 w-full max-w-[600px]">
-                        <p className="text-3xl md:text-4xl lg:text-5xl text-white font-semibold mb-5">Book Appointment With Trusted Doctors</p>
-                        <div className="flex flex-col lg:flex-row gap-3 mb-5">
+                    <div className="mt-[2em] lg:mt-0 max-w-[400px] max-w-[600px]">
+                        <p className="text-3xl md:text-3xl lg:text-4xl text-white font-semibold mb-5">Book Appointment With Trusted Doctors</p>
+                        <div className="flex flex-col lg:flex-row gap-3 mb-5 items-start">
                             <img src={groupProfiles} alt="" className="w-28 m-auto lg:m-0" />
                             <p className="text-sm text-white">Simply browse through our extensive list of trusted doctors, schedule your appointment hassle-free.</p>
                         </div>
@@ -33,6 +34,8 @@ const Homepage = () => {
                     </div>
                 </div>
             </div>
+
+            <SpecialitySlick />
         </main>
     </>
 }
