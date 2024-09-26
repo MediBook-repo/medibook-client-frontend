@@ -71,7 +71,7 @@ const Homepage = () => {
                 </div>
             </section>
 
-            <article className="pt-[1.3em] pb-[5em]">
+            <article className="pt-[1.3em] pb-[7em]">
                 <div className="flex flex-col gap-0 md:flex-row md:gap-24">
 
                     <div className="w-auto md:w-[50%]">
