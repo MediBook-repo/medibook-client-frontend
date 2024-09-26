@@ -6,6 +6,8 @@ import SpecialitySlick from "../components/SpecialitySlick";
 
 import 'boxicons';
 import TopDoctors from "../components/TopDoctors";
+import appointment_img from "../assets/images/appointment_img-DzbZlMsi.png";
+
 
 const Homepage = () => {
     return <>
@@ -38,6 +40,34 @@ const Homepage = () => {
 
             <SpecialitySlick />
             <TopDoctors />
+
+            <section className="pb-[4em]">
+                <div className="bg-[#3A60E6] rounded h-auto md:h-[400px] py-[6em] md:py-0">
+                    <div className="md:flex md:items-center md:justify-between mx-[4em]">
+                        <div className="md:max-w-[37%]">
+                            <p className="text-2xl md:text-3xl lg:text-4xl text-white font-semibold mb-4" style={{ lineHeight: "1.2em" }}>Book Appointment With 100+ Trusted Doctors</p>
+                            <Link to="/">
+                                <Button
+                                    size='md'
+                                    style={{
+                                        backgroundColor: "white",
+                                        borderRadius: "20px",
+                                        width: "10em",
+                                        padding: "1.3em"
+                                    }}
+                                >
+                                    <span className="text-sm">
+                                        Create Account
+                                    </span>
+                                </Button>
+                            </Link>
+                        </div>
+                        <div>
+                            <img src={appointment_img} alt="" className="w-[300px] lg:w-[410px] hidden md:block relative top-[4.4em] lg:top-[-3.1em]" />
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     </>
 }
