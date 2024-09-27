@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 import { useState } from "react";
 
@@ -21,29 +21,19 @@ import { useDisclosure } from "@chakra-ui/react";
 import 'boxicons';
 
 const NavBar = () => {
-    // Handle drawer open/close states
+    // Handle drawer open/close states using Chakra UI's useDisclosure hook
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    // State to manage which nav item is active
-    const [isNotActivated, setIsNotActivated] = useState({
-        home: false,         // Home is initially active
-        allDoctors: true,    // Other tabs are inactive
-        about: true,
-        contact: true,
-        createAccount: true
-    });
+    // Hook to get the current path from react-router-dom
+    const location = useLocation();
 
-    // Function to toggle active state of nav items
-    const handleToggle = (key) => {
-        // Reset all nav items to inactive, then activate the selected one
-        setIsNotActivated({
-            home: true,
-            allDoctors: true,
-            about: true,
-            contact: true,
-            createAccount: true,
-            [key]: false    // Activate selected item
-        });
+    // Function to check if a path is active
+    // For the '/doctors' path, it also checks if the path starts with '/doctors' to include routes like '/doctors/123'
+    const isActive = (path) => {
+        if (path === '/doctors') {
+            return location.pathname === '/doctors' || location.pathname.startsWith('/doctors/');
+        }
+        return location.pathname === path;
     };
 
     return (
@@ -51,7 +41,9 @@ const NavBar = () => {
             <div className="flex justify-between items-center">
                 {/* Logo section */}
                 <div className="flex justify-between items-center">
+                    {/* Company logo */}
                     <img src={medibook_img_1} alt="MediBook Logo" className="w-[80px]" />
+                    {/* Company name */}
                     <p className="text-[1.7em]">
                         <span className="font-bold text-[#3A60E6]">Medi</span>
                         <span className="font-bold text-[#67C8FF]">Book</span>
@@ -62,63 +54,42 @@ const NavBar = () => {
                 <ul className="hidden lg:flex justify-between gap-5">
                     {/* HOME nav item */}
                     <li>
-                        <Link
-                            className="font-bold"
-                            to="/"
-                            onClick={() => handleToggle('home')}
-                        >
+                        <Link className="font-bold" to="/">
                             HOME
                         </Link>
                         {/* Active state indicator */}
-                        <hr className={`border-0 h-[8%] bg-[#3A60E6] mt-1 w-[69%] m-auto ${isNotActivated.home ? 'hidden' : ''}`} />
+                        <hr className={`border-0 h-[8%] bg-[#3A60E6] mt-1 w-[69%] m-auto ${isActive('/') ? '' : 'hidden'}`} />
                     </li>
                     {/* ALL DOCTORS nav item */}
                     <li>
-                        <Link
-                            className="font-bold"
-                            to="/doctors"
-                            onClick={() => handleToggle('allDoctors')}
-                        >
+                        <Link className="font-bold" to="/doctors">
                             ALL DOCTORS
                         </Link>
                         {/* Active state indicator */}
-                        <hr className={`border-0 h-[8%] bg-[#3A60E6] mt-1 w-[69%] m-auto ${isNotActivated.allDoctors ? 'hidden' : ''}`} />
+                        <hr className={`border-0 h-[8%] bg-[#3A60E6] mt-1 w-[69%] m-auto ${isActive('/doctors') ? '' : 'hidden'}`} />
                     </li>
                     {/* ABOUT nav item */}
                     <li>
-                        <Link
-                            className="font-bold"
-                            to="/about"
-                            onClick={() => handleToggle('about')}
-                        >
+                        <Link className="font-bold" to="/about">
                             ABOUT
                         </Link>
                         {/* Active state indicator */}
-                        <hr className={`border-0 h-[8%] bg-[#3A60E6] mt-1 w-[69%] m-auto ${isNotActivated.about ? 'hidden' : ''}`} />
+                        <hr className={`border-0 h-[8%] bg-[#3A60E6] mt-1 w-[69%] m-auto ${isActive('/about') ? '' : 'hidden'}`} />
                     </li>
                     {/* CONTACT nav item */}
                     <li>
-                        <Link
-                            className="font-bold"
-                            to="/contact"
-                            onClick={() => handleToggle('contact')}
-                        >
+                        <Link className="font-bold" to="/contact">
                             CONTACT
                         </Link>
                         {/* Active state indicator */}
-                        <hr className={`border-0 h-[8%] bg-[#3A60E6] mt-1 w-[69%] m-auto ${isNotActivated.contact ? 'hidden' : ''}`} />
+                        <hr className={`border-0 h-[8%] bg-[#3A60E6] mt-1 w-[69%] m-auto ${isActive('/contact') ? '' : 'hidden'}`} />
                     </li>
                 </ul>
 
                 {/* Create Account button for large screens */}
                 <ul className="hidden lg:block">
                     <li>
-                        <Link
-                            to="/createaccount"
-                            onClick={() => {
-                                handleToggle('createAccount')
-                            }}
-                        >
+                        <Link to="/createaccount">
                             <Button
                                 style={{
                                     backgroundColor: '#3A60E6',
@@ -133,7 +104,7 @@ const NavBar = () => {
                     </li>
                 </ul>
 
-                {/* Mobile menu icon */}
+                {/* Mobile menu icon for opening the Drawer */}
                 <div className="block lg:hidden mt-2">
                     <box-icon name='menu-alt-right' color='#3A60E6' size='30px' onClick={onOpen}></box-icon>
                 </div>
@@ -161,18 +132,11 @@ const NavBar = () => {
                     <DrawerBody>
                         {/* Drawer menu items */}
                         <div className="text-center mt-4">
-                            <Link
-                                className="font-bold"
-                                to="/"
-                                onClick={() => {
-                                    handleToggle('home');
-                                    onClose(); // Close drawer after navigation
-                                }}
-                            >
+                            <Link className="font-bold" to="/" onClick={onClose}>
                                 <Button
                                     style={{
-                                        backgroundColor: `${isNotActivated.home ? 'white' : '#3A60E6'}`,
-                                        color: `${isNotActivated.home ? 'black' : 'white'}`,
+                                        backgroundColor: `${isActive('/') ? '#3A60E6' : 'white'}`,
+                                        color: `${isActive('/') ? 'white' : 'black'}`,
                                         fontWeight: "bold"
                                     }}
                                     size='lg'
@@ -181,20 +145,12 @@ const NavBar = () => {
                                 </Button>
                             </Link>
                         </div>
-                        {/* Similar structure for other drawer links */}
                         <div className="text-center mt-4">
-                            <Link
-                                className="font-bold"
-                                to="/doctors"
-                                onClick={() => {
-                                    handleToggle('allDoctors');
-                                    onClose();
-                                }}
-                            >
+                            <Link className="font-bold" to="/doctors" onClick={onClose}>
                                 <Button
                                     style={{
-                                        backgroundColor: `${isNotActivated.allDoctors ? 'white' : '#3A60E6'}`,
-                                        color: `${isNotActivated.allDoctors ? 'black' : 'white'}`,
+                                        backgroundColor: `${isActive('/doctors') ? '#3A60E6' : 'white'}`,
+                                        color: `${isActive('/doctors') ? 'white' : 'black'}`,
                                         fontWeight: "bold"
                                     }}
                                     size='lg'
@@ -204,18 +160,11 @@ const NavBar = () => {
                             </Link>
                         </div>
                         <div className="text-center mt-4">
-                            <Link
-                                className="font-bold"
-                                to="/about"
-                                onClick={() => {
-                                    handleToggle('about');
-                                    onClose();
-                                }}
-                            >
+                            <Link className="font-bold" to="/about" onClick={onClose}>
                                 <Button
                                     style={{
-                                        backgroundColor: `${isNotActivated.about ? 'white' : '#3A60E6'}`,
-                                        color: `${isNotActivated.about ? 'black' : 'white'}`,
+                                        backgroundColor: `${isActive('/about') ? '#3A60E6' : 'white'}`,
+                                        color: `${isActive('/about') ? 'white' : 'black'}`,
                                         fontWeight: "bold"
                                     }}
                                     size='lg'
@@ -225,18 +174,11 @@ const NavBar = () => {
                             </Link>
                         </div>
                         <div className="text-center mt-4">
-                            <Link
-                                className="font-bold"
-                                to="/contact"
-                                onClick={() => {
-                                    handleToggle('contact');
-                                    onClose();
-                                }}
-                            >
+                            <Link className="font-bold" to="/contact" onClick={onClose}>
                                 <Button
                                     style={{
-                                        backgroundColor: `${isNotActivated.contact ? 'white' : '#3A60E6'}`,
-                                        color: `${isNotActivated.contact ? 'black' : 'white'}`,
+                                        backgroundColor: `${isActive('/contact') ? '#3A60E6' : 'white'}`,
+                                        color: `${isActive('/contact') ? 'white' : 'black'}`,
                                         fontWeight: "bold"
                                     }}
                                     size='lg'
@@ -248,18 +190,11 @@ const NavBar = () => {
 
                         {/* Create Account button in drawer */}
                         <div className="text-center mt-4">
-                            <Link
-                                className="font-bold"
-                                to="/createaccount"
-                                onClick={() => {
-                                    handleToggle('createAccount');
-                                    onClose();
-                                }}
-                            >
+                            <Link className="font-bold" to="/createaccount" onClick={onClose}>
                                 <Button
                                     style={{
-                                        backgroundColor: `${isNotActivated.createAccount ? 'white' : '#3A60E6'}`,
-                                        color: `${isNotActivated.createAccount ? 'black' : 'white'}`,
+                                        backgroundColor: `${isActive('/createaccount') ? '#3A60E6' : 'white'}`,
+                                        color: `${isActive('/createaccount') ? 'white' : 'black'}`,
                                         fontWeight: "bold"
                                     }}
                                     size='lg'
@@ -276,6 +211,6 @@ const NavBar = () => {
             <hr />
         </nav>
     );
-}
+};
 
 export default NavBar;
