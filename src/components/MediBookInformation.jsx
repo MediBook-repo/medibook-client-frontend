@@ -1,7 +1,7 @@
 import medibook_img_2 from '../assets/images/medibook-img-2.png';
 
 const MediBookInformation = () => {
-    return <article className="md:pt-[1.3em] pb-[7em]">
+    return <article className="md:pt-[1.3em] pb-[2.5em]">
         <div className="flex flex-col gap-0 md:flex-row md:gap-24">
 
             <div className="w-auto md:w-[50%]">
