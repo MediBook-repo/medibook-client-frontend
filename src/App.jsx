@@ -3,6 +3,7 @@ import NavBar from './components/NavBar'
 import Homepage from './pages/Homepage'
 import Doctors from './pages/Doctors'
 import AboutUs from './pages/AboutUs'
+import ContactUs from './pages/ContactUs'
 import Footer from './components/Footer'
 import { Routes, Route } from 'react-router-dom'
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path=":id" element={<Doctors />} />
         </Route >
         <Route path='/about' element={<AboutUs />}></Route>
+        <Route path='/contact' element={<ContactUs />}></Route>
       </Routes>
       <Footer />
     </>
