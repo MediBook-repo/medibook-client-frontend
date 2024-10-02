@@ -7,13 +7,18 @@ import {
 
 import { ToastContainer, toast } from 'react-toastify';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import useAxios from '../hooks/useAxios';
 
 import 'boxicons';
 import 'react-toastify/dist/ReactToastify.css'; // Import CSS for react-toastify
 
 const GoogleMap = () => {
+    const addressCoordinates = { lat: 10.902139, lng: 123.068377 };
     const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+    const { data, loading, error } = useAxios(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${addressCoordinates.lat},${addressCoordinates.lng}&key=${GOOGLE_MAPS_API_KEY}`); // Replace with your API URL
+    const address = !loading && 'Brgy. ' + data.data.results[0].formatted_address
 
     const [infowindowOpen, setInfowindowOpen] = useState(false);
     const [selectedPosition, setSelectedPosition] = useState(null);
@@ -33,7 +38,6 @@ const GoogleMap = () => {
 
     const copyAddress = () => {
         if (!isAddressCopied) {
-            const address = '204 Yap Quina Subdivision, Brgy. 1, Victoriás City, Negros Occidental';
             navigator.clipboard.writeText(address);
             setIsAddressCopied(true);
             notify();
@@ -45,16 +49,16 @@ const GoogleMap = () => {
             <APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
                 <Map
                     style={{ width: '100%', height: '400px' }}
-                    defaultCenter={{ lat: 10.902010, lng: 123.068431 }}
-                    defaultZoom={19}
+                    defaultCenter={addressCoordinates}
+                    defaultZoom={16.8}
                     gestureHandling={'greedy'}
                     disableDefaultUI={true}
                 />
 
                 <Marker
-                    position={{ lat: 10.902010, lng: 123.068431 }}
+                    position={addressCoordinates}
                     clickable={true}
-                    onClick={() => handleMarkerClick({ lat: 10.902010, lng: 123.068431 })}
+                    onClick={() => handleMarkerClick(addressCoordinates)}
                     title={'clickable google.maps.Marker'}
                 />
 
@@ -81,7 +85,7 @@ const GoogleMap = () => {
                                 className={`${isAddressCopied ? '' : 'cursor-pointer'}`}
                                 onClick={() => copyAddress()}
                             >
-                                204 Yap Quina Subdivision, Brgy. 1, Victoriás City, Negros Occidental
+                                {address}
                             </p>
                         </div>
                     </InfoWindow>
