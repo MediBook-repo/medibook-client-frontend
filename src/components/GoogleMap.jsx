@@ -5,34 +5,44 @@ import {
     InfoWindow,
 } from '@vis.gl/react-google-maps';
 
+import { ToastContainer, toast } from 'react-toastify';
+
 import { useState } from 'react';
 
 import 'boxicons';
+import 'react-toastify/dist/ReactToastify.css'; // Import CSS for react-toastify
 
 const GoogleMap = () => {
-    const [infowindowOpen, setInfowindowOpen] = useState(false); // Changed initial state to false
-    const [selectedPosition, setSelectedPosition] = useState(null); // State to track the selected marker position
+    const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+
+    const [infowindowOpen, setInfowindowOpen] = useState(false);
+    const [selectedPosition, setSelectedPosition] = useState(null);
     const [isAddressCopied, setIsAddressCopied] = useState(false);
 
     const handleMarkerClick = (position) => {
         setSelectedPosition(position);
-        setInfowindowOpen(true); // Open InfoWindow on marker click
+        setInfowindowOpen(true);
     };
 
     const handleCloseInfoWindow = () => {
-        setInfowindowOpen(false); // Close InfoWindow
-        setSelectedPosition(null); // Reset selected position
+        setInfowindowOpen(false);
+        setSelectedPosition(null);
     };
 
+    const notify = () => toast.info("Address copied successfully!");
+
     const copyAddress = () => {
-        const address = '204 Yap Quina Subdivision, Brgy. 1, Victoriás City, Negros Occidental';
-        navigator.clipboard.writeText(address);
-        setIsAddressCopied(true)
-    }
+        if (!isAddressCopied) {
+            const address = '204 Yap Quina Subdivision, Brgy. 1, Victoriás City, Negros Occidental';
+            navigator.clipboard.writeText(address);
+            setIsAddressCopied(true);
+            notify();
+        }
+    };
 
     return (
         <>
-            <APIProvider apiKey={'AIzaSyBsjaYpcqQsuXso2ZmNYIWvhm7Pnr9h-tU'}>
+            <APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
                 <Map
                     style={{ width: '100%', height: '400px' }}
                     defaultCenter={{ lat: 10.902010, lng: 123.068431 }}
@@ -50,40 +60,45 @@ const GoogleMap = () => {
 
                 {infowindowOpen && selectedPosition && (
                     <InfoWindow
-                        position={selectedPosition} // Set position of the InfoWindow
-                        onCloseClick={handleCloseInfoWindow} // Handle InfoWindow close
+                        position={selectedPosition}
+                        onCloseClick={handleCloseInfoWindow}
                     >
-                        <div className="flex flex-col sm:flex-row gap-2 items-start">
-                            <div className="flex items-center gap-1">
+                        <div className="flex flex-col sm:flex-row gap-2 items-start overflow-hidden">
+                            <div className={`flex items-center gap-1 ${isAddressCopied ? '' : 'cursor-pointer'}`}>
                                 <box-icon
                                     name="copy"
                                     className={`${isAddressCopied ? '' : 'cursor-pointer'}`}
                                     type={`${isAddressCopied ? 'solid' : ''}`}
-                                    onClick={() => {
-                                        copyAddress();
-                                    }}
+                                    onClick={() => copyAddress()}
                                 />
                                 <p className={`block sm:hidden ${isAddressCopied ? '' : 'cursor-pointer'}`}
-                                    onClick={() => {
-                                        copyAddress();
-                                    }}
-                                >{isAddressCopied ? 'Address Copied' : 'Copy Address'}</p>
+                                    onClick={() => copyAddress()}
+                                >
+                                    {isAddressCopied ? 'Address Copied' : 'Copy Address'}
+                                </p>
                             </div>
                             <p
                                 className={`${isAddressCopied ? '' : 'cursor-pointer'}`}
-                                onClick={() => {
-                                    copyAddress();
-                                }}
+                                onClick={() => copyAddress()}
                             >
                                 204 Yap Quina Subdivision, Brgy. 1, Victoriás City, Negros Occidental
                             </p>
                         </div>
-
                     </InfoWindow>
                 )}
             </APIProvider>
+
+            {/* Customized Toast Container */}
+            <ToastContainer
+                position="top-right"   // Adjust position of the toast
+                autoClose={2000}       // Auto close after 2 seconds
+                closeButton={false}    // Remove the close button
+                hideProgressBar={true} // Hide the progress bar
+                theme="colored"
+
+            />
         </>
-    )
-}
+    );
+};
 
 export default GoogleMap;
