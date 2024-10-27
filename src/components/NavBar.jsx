@@ -1,6 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
-import { useState } from "react";
 
 // Import image asset
 import medibook_img_1 from '../assets/images/medibook-img-2.png';

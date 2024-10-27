@@ -159,7 +159,7 @@ const Doctors = () => {
                                 filteredDoctors.map((doctor) => {
                                     const { id, name, position, isDoctorAvailable, url } = doctor;
                                     return (
-                                        <Link to="/" key={id}>
+                                        <Link to={`/appointment/${id}`} key={id}>
                                             <DoctorCard
                                                 url={url}
                                                 name={name}
