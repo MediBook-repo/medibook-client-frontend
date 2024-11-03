@@ -1,6 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 
+import { useRef, useEffect } from "react";
+
 // Import image asset
 import medibook_img_1 from '../assets/images/medibook-img-2.png';
 
@@ -20,6 +22,20 @@ import { useDisclosure } from "@chakra-ui/react";
 import 'boxicons';
 
 const NavBar = () => {
+
+    // temp auth
+    const isUserLoggedIn = true;
+
+    const profilePicBelowElement = useRef(null);
+
+    const toggleProfilePicBelowElement = () => {
+        if (profilePicBelowElement.current.classList.contains('hidden')) {
+            profilePicBelowElement.current.classList.remove('hidden');
+        } else {
+            profilePicBelowElement.current.classList.add('hidden');
+        }
+    }
+
     // Handle drawer open/close states using Chakra UI's useDisclosure hook
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -34,6 +50,10 @@ const NavBar = () => {
         }
         return location.pathname === path;
     };
+
+    useEffect(() => {
+        profilePicBelowElement.current.classList.add('hidden');
+    }, [location.pathname])
 
     return (
         <nav className="max-w-[90%] sm:max-w-[80%] m-auto">
@@ -86,22 +106,41 @@ const NavBar = () => {
                 </ul>
 
                 {/* Create Account button for large screens */}
-                <ul className="hidden lg:block">
-                    <li>
-                        <Link to="/createaccount">
-                            <Button
-                                style={{
-                                    backgroundColor: '#3A60E6',
-                                    color: 'white',
-                                    fontWeight: "normal"
-                                }}
-                                size='md'
-                            >
-                                Create Account
-                            </Button>
-                        </Link>
-                    </li>
-                </ul>
+                {
+                    !isUserLoggedIn
+                        ? <ul className="hidden lg:block">
+                            <li>
+                                <Link to="/createaccount">
+                                    <Button
+                                        style={{
+                                            backgroundColor: '#3A60E6',
+                                            color: 'white',
+                                            fontWeight: "normal"
+                                        }}
+                                        size='md'
+                                    >
+                                        Create Account
+                                    </Button>
+                                </Link>
+                            </li>
+                        </ul>
+
+                        : <ul
+                            className="hidden lg:block cursor-pointer"
+                            onClick={toggleProfilePicBelowElement}
+                        >
+                            <li>
+                                <div className="flex align-middle">
+                                    <div className="bg-gray-300 p-1 rounded-full flex justify-center align-middle">
+                                        <box-icon type='solid' name='user-circle' size='31px' color="gray"></box-icon>
+                                    </div>
+                                    <div className="mt-2">
+                                        <box-icon name='chevron-down'></box-icon>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                }
 
                 {/* Mobile menu icon for opening the Drawer */}
                 <div className="block lg:hidden mt-2">
@@ -188,26 +227,39 @@ const NavBar = () => {
                         </div>
 
                         {/* Create Account button in drawer */}
-                        <div className="text-center mt-4">
-                            <Link className="font-bold" to="/createaccount" onClick={onClose}>
-                                <Button
-                                    style={{
-                                        backgroundColor: `${isActive('/createaccount') ? '#3A60E6' : 'white'}`,
-                                        color: `${isActive('/createaccount') ? 'white' : 'black'}`,
-                                        fontWeight: "bold"
-                                    }}
-                                    size='lg'
-                                >
-                                    CREATE ACCOUNT
-                                </Button>
-                            </Link>
-                        </div>
+                        {
+                            !isUserLoggedIn && <div className="text-center mt-4">
+                                <Link className="font-bold" to="/createaccount" onClick={onClose}>
+                                    <Button
+                                        style={{
+                                            backgroundColor: `${isActive('/createaccount') ? '#3A60E6' : 'white'}`,
+                                            color: `${isActive('/createaccount') ? 'white' : 'black'}`,
+                                            fontWeight: "bold"
+                                        }}
+                                        size='lg'
+                                    >
+                                        CREATE ACCOUNT
+                                    </Button>
+                                </Link>
+                            </div>
+                        }
+
                     </DrawerBody>
                 </DrawerContent>
             </Drawer>
 
             {/* Separator line */}
             <hr />
+
+            <div
+                className="relative hidden z-20"
+                ref={profilePicBelowElement}>
+                <div className="absolute right-[0em] bg-gray-100 p-3 mt-1 w-[170px]  hidden flex-col gap-3 lg:flex">
+                    <Link to="myprofile"><p className="font-bold">My Profile</p></Link>
+                    <Link to="myappointments"><p className="font-bold">My Appointments</p></Link>
+                    <Link to=""><p className="font-bold">Logout</p></Link>
+                </div>
+            </div>
         </nav>
     );
 };
