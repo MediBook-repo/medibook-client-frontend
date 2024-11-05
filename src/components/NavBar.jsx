@@ -29,10 +29,12 @@ const NavBar = () => {
     const profilePicBelowElement = useRef(null);
 
     const toggleProfilePicBelowElement = () => {
-        if (profilePicBelowElement.current.classList.contains('hidden')) {
-            profilePicBelowElement.current.classList.remove('hidden');
-        } else {
-            profilePicBelowElement.current.classList.add('hidden');
+        if (isUserLoggedIn) {
+            if (profilePicBelowElement.current.classList.contains('hidden')) {
+                profilePicBelowElement.current.classList.remove('hidden');
+            } else {
+                profilePicBelowElement.current.classList.add('hidden');
+            }
         }
     }
 
@@ -52,8 +54,11 @@ const NavBar = () => {
     };
 
     useEffect(() => {
-        profilePicBelowElement.current.classList.add('hidden');
-    }, [location.pathname])
+        if (profilePicBelowElement.current) {
+            profilePicBelowElement.current.classList.add('hidden');
+        }
+    }, [location.pathname]);
+
 
     return (
         <nav className="max-w-[90%] sm:max-w-[80%] m-auto">
@@ -143,7 +148,24 @@ const NavBar = () => {
                 }
 
                 {/* Mobile menu icon for opening the Drawer */}
-                <div className="block lg:hidden mt-2">
+                <div className="block lg:hidden mt-2 flex items-center gap-1">
+                    {
+                        isUserLoggedIn && <ul
+                            className="cursor-pointer"
+                            onClick={toggleProfilePicBelowElement}
+                        >
+                            <li>
+                                <div className="flex align-middle">
+                                    <div className="bg-gray-300 p-1 rounded-full flex justify-center align-middle">
+                                        <box-icon type='solid' name='user-circle' size='31px' color="gray"></box-icon>
+                                    </div>
+                                    <div className="mt-2">
+                                        <box-icon name='chevron-down'></box-icon>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    }
                     <box-icon name='menu-alt-right' color='#3A60E6' size='30px' onClick={onOpen}></box-icon>
                 </div>
             </div>
@@ -251,15 +273,17 @@ const NavBar = () => {
             {/* Separator line */}
             <hr />
 
-            <div
-                className="relative hidden z-20"
-                ref={profilePicBelowElement}>
-                <div className="absolute right-[0em] bg-gray-100 p-3 mt-1 w-[170px]  hidden flex-col gap-3 lg:flex">
-                    <Link to="myprofile"><p className="font-bold">My Profile</p></Link>
-                    <Link to="myappointments"><p className="font-bold">My Appointments</p></Link>
-                    <Link to=""><p className="font-bold">Logout</p></Link>
+            {
+                isUserLoggedIn && <div
+                    className="relative hidden z-20"
+                    ref={profilePicBelowElement}>
+                    <div className="absolute right-10 lg:right-[0em] bg-gray-100 p-3 mt-1 w-[170px]  flex flex-col gap-3">
+                        <Link to="myprofile"><p className="font-bold">My Profile</p></Link>
+                        <Link to="myappointments"><p className="font-bold">My Appointments</p></Link>
+                        <Link to=""><p className="font-bold">Logout</p></Link>
+                    </div>
                 </div>
-            </div>
+            }
         </nav>
     );
 };

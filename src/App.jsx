@@ -8,65 +8,46 @@ import Appointment from './components/Appointment'
 import CreateAccount from './pages/CreateAccount'
 import Login from './pages/Login'
 import MyProfile from './pages/MyProfile'
+import MyAppointments from './pages/MyAppointments'
 import Footer from './components/Footer'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 
-import { useLocation, useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
 function App() {
-
-  // temp auth
-  const isUserLoggedIn = true;
-
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (location.pathname == '/myprofile') {
-      if (!isUserLoggedIn) {
-        navigate('/login');
-        return;
-      }
-
-      navigate('/myprofile');
-    }
-
-    if (location.pathname == '/login') {
-      if (isUserLoggedIn) {
-        navigate('/');
-        return;
-      }
-      navigate('/login');
-    }
-
-    if (location.pathname == '/createaccount') {
-      if (isUserLoggedIn) {
-        navigate('/');
-        return;
-      }
-      navigate('/createaccount');
-    }
-  }, [location])
+  const isUserLoggedIn = true; // Temporary authentication status
 
   return (
     <>
       <NavBar />
       <Routes>
-        <Route path='/' element={<Homepage />} />
-        <Route path='/doctors'>
-          <Route index element={<Doctors />} />
-          <Route path=":id" element={<Doctors />} />
-        </Route >
-        <Route path='/about' element={<AboutUs />} />
-        <Route path='/contact' element={<ContactUs />} />
-        <Route path='/appointment/:id' element={<Appointment />} />
-        <Route path='/createaccount' element={<CreateAccount />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/myprofile' element={<MyProfile />} />
+        <Route path="/" element={<Homepage />} />
+        <Route path="/doctors" element={<Doctors />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/appointment/:id" element={<Appointment />} />
+
+        {/* Only show CreateAccount and Login if user is NOT logged in */}
+        <Route
+          path="/createaccount"
+          element={isUserLoggedIn ? <Navigate to="/" /> : <CreateAccount />}
+        />
+        <Route
+          path="/login"
+          element={isUserLoggedIn ? <Navigate to="/" /> : <Login />}
+        />
+
+        {/* Only show MyProfile and MyAppointments if user IS logged in */}
+        <Route
+          path="/myprofile"
+          element={isUserLoggedIn ? <MyProfile /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/myappointments"
+          element={isUserLoggedIn ? <MyAppointments /> : <Navigate to="/login" />}
+        />
       </Routes>
       <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
